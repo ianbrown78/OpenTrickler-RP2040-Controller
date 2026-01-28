@@ -279,6 +279,8 @@ void charge_mode_wait_for_complete() {
             motor_set_speed(SELECT_COARSE_TRICKLER_MOTOR, 0);
 
             // TODO: When tuning off the coarse trickler, also move reverse to back off some powder
+            // Use -2.0 as the reverse speed. The speed_ramp function should stop the motor.
+            motor_set_speed(SELECT_COARSE_TRICKLER_MOTOR, -2.0);
         }
 
         // Update PID variables
