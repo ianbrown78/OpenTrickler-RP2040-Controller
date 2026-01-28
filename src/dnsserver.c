@@ -183,7 +183,7 @@ static void dns_server_process(void *arg, struct udp_pcb *upcb, struct pbuf *p, 
     uint8_t *answer_ptr = dns_msg + (question_ptr - dns_msg);
     *answer_ptr++ = 0xc0; // pointer
     *answer_ptr++ = question_ptr_start - dns_msg; // pointer to question
-    
+
     *answer_ptr++ = 0;
     *answer_ptr++ = 1; // host address
 

@@ -60,7 +60,7 @@ add_dependencies("${TARGET_NAME}" generate_display_mirror)
 # Generate version
 MESSAGE("Python_EXECUTABLE: ${Python_EXECUTABLE}")
 add_custom_command(
-    OUTPUT 
+    OUTPUT
         "${SRC_DIRECTORY}/generated/version.c"
         "${SRC_DIRECTORY}/generated/version.h"
         "non_exist_file"

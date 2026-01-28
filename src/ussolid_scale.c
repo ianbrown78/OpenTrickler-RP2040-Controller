@@ -12,26 +12,26 @@
 #include "scale.h"
 #include "app.h"
 
-/* 
+/*
   Example data
-    +   20.758g  
-    +   20.758g  
-    +   20.758g  
-    +  320.344GN 
-    +  320.344GN 
-    +  320.344GN 
-    +  320.344GN 
-    +  889.629GN 
-    + 1116.438GN 
-    + 1320.253GN 
-    + 1508.019GN 
-    + ~~~~~~~~GN 
+    +   20.758g
+    +   20.758g
+    +   20.758g
+    +  320.344GN
+    +  320.344GN
+    +  320.344GN
+    +  320.344GN
+    +  889.629GN
+    + 1116.438GN
+    + 1320.253GN
+    + 1508.019GN
+    + ~~~~~~~~GN
 */
 typedef union {
     struct __attribute__((__packed__)) {
         char header[2];         // + or -
         char data[8];           // Float integer
-        char unit[3];           // GN (or something else)   
+        char unit[3];           // GN (or something else)
         char terminator[2];     // \r\n (carriage return and newline)
     };
     char bytes[15];
@@ -76,7 +76,7 @@ void _ussolid_scale_listener_task(void *p) {
     ussolid_jfdbs_data_format_t frame;
 
     while (true) {
-        // Read all data 
+        // Read all data
         while (uart_is_readable(SCALE_UART)) {
             char ch = uart_getc(SCALE_UART);
 
@@ -84,7 +84,7 @@ void _ussolid_scale_listener_task(void *p) {
 
             // If we have received 15 bytes then we can decode the message
             if (string_buf_idx == sizeof(ussolid_jfdbs_data_format_t)) {
-                
+
                 // Data is ready, send to decode
                 float weight = _decode_measurement_msg(&frame);
 

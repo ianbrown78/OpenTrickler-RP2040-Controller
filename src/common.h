@@ -26,7 +26,7 @@ typedef struct {
 
 
 /**
- * If the RTOS is running then use RTOS delay. Otherwise use dummy delay. 
+ * If the RTOS is running then use RTOS delay. Otherwise use dummy delay.
 */
 void delay_ms(uint32_t ms, BaseType_t scheduler_state);
 

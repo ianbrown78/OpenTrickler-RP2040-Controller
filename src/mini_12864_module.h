@@ -39,7 +39,7 @@ extern "C" {
 
 
 /**
- * Wait for button encoder input. 
+ * Wait for button encoder input.
 */
 ButtonEncoderEvent_t button_wait_for_input(bool block);
 bool mini_12864_module_init(void);

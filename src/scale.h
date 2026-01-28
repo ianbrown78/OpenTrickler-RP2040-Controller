@@ -8,7 +8,7 @@
 #include "http_rest.h"
 #include <semphr.h>
 
-#define EEPROM_SCALE_DATA_REV                     3              // 16 byte 
+#define EEPROM_SCALE_DATA_REV                     3              // 16 byte
 
 
 // Abstracted base class

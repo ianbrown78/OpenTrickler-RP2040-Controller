@@ -7,7 +7,7 @@
 #include <semphr.h>
 #include "http_rest.h"
 
-#define EEPROM_SERVO_GATE_CONFIG_REV                     1              // 16 byte 
+#define EEPROM_SERVO_GATE_CONFIG_REV                     1              // 16 byte
 
 typedef enum {
     GATE_DISABLED = 0,

@@ -1,5 +1,5 @@
 /*
-  This file is created to be compiled in C instead of C++ mode. 
+  This file is created to be compiled in C instead of C++ mode.
 */
 #include <stdio.h>
 #include "u8g2.h"
@@ -79,7 +79,7 @@ uint8_t render_version_page(mui_t * ui, uint8_t msg) {
 
 uint8_t render_profile_ver_info(mui_t *ui, uint8_t msg) {
     switch (msg) {
-        case MUIF_MSG_DRAW: 
+        case MUIF_MSG_DRAW:
         {
             u8g2_uint_t x = mui_get_x(ui);
             u8g2_uint_t y = mui_get_y(ui);
@@ -90,7 +90,7 @@ uint8_t render_profile_ver_info(mui_t *ui, uint8_t msg) {
             profile_t * current_profile = profile_get_selected();
 
             char buf[32];
-            snprintf(buf, sizeof(buf), 
+            snprintf(buf, sizeof(buf),
                      "Rev:%lx,Comp:%lx", current_profile->rev, current_profile->compatibility);
 
             u8g2_DrawStr(u8g2, x, y, buf);
@@ -137,7 +137,7 @@ uint8_t render_profile_pid_details(mui_t *ui, uint8_t msg) {
             snprintf(buf, sizeof(buf), "Kd:%0.3f", current_profile->fine_kd);
             u8g2_DrawStr(u8g2, 65, 45, buf);
             break;
-        }            
+        }
     }
     return 0;
 }
@@ -185,7 +185,7 @@ uint8_t render_profile_misc_details(mui_t *ui, uint8_t msg) {
             u8g2_DrawStr(u8g2, 5, 35, buf);
 
             break;
-        }            
+        }
     }
     return 0;
 }
@@ -276,15 +276,15 @@ fds_t fds_data[] = {
     MUI_XY("HL", 0,13)
 
     MUI_STYLE(0)
-    MUI_DATA("MU", 
+    MUI_DATA("MU",
         MUI_10 "Start|"
         MUI_20 "Cleanup|"
         MUI_40 "Wireless|"
         MUI_30 "Settings"
         )
-    MUI_XYA("GC", 5, 25, 0) 
-    MUI_XYA("GC", 5, 37, 1) 
-    MUI_XYA("GC", 5, 49, 2) 
+    MUI_XYA("GC", 5, 25, 0)
+    MUI_XYA("GC", 5, 37, 1)
+    MUI_XYA("GC", 5, 49, 2)
     MUI_XYA("GC", 5, 61, 3)
 
     // Menu 10: Select profile
@@ -376,7 +376,7 @@ fds_t fds_data[] = {
     MUI_XY("HL", 0,13)
 
     MUI_STYLE(0)
-    MUI_DATA("MU", 
+    MUI_DATA("MU",
         MUI_31 "Scale|"
         MUI_32 "Profile Manager|"
         MUI_37 "EEPROM|"
@@ -385,9 +385,9 @@ fds_t fds_data[] = {
         MUI_36 "Version|"
         MUI_1 "<-Return"  // Back to main menu
         )
-    MUI_XYA("GC", 5, 25, 0) 
-    MUI_XYA("GC", 5, 37, 1) 
-    MUI_XYA("GC", 5, 49, 2) 
+    MUI_XYA("GC", 5, 25, 0)
+    MUI_XYA("GC", 5, 37, 1)
+    MUI_XYA("GC", 5, 49, 2)
     MUI_XYA("GC", 5, 61, 3)
 
     // Menu 31: Scale (main menu)
@@ -402,11 +402,11 @@ fds_t fds_data[] = {
         MUI_51 "Calibration|"
         MUI_30 "<-Return"  // back to view 30
     )
-    MUI_XYA("GC", 5, 25, 0) 
-    MUI_XYA("GC", 5, 37, 1) 
-    MUI_XYA("GC", 5, 49, 2) 
+    MUI_XYA("GC", 5, 25, 0)
+    MUI_XYA("GC", 5, 37, 1)
+    MUI_XYA("GC", 5, 49, 2)
     MUI_XYA("GC", 5, 61, 3)
-    
+
     // Menu 32: Select Profile Page
     MUI_FORM(32)
     MUI_STYLE(1)
@@ -428,9 +428,9 @@ fds_t fds_data[] = {
     MUI_XY("HL", 0,13)
 
     MUI_STYLE(0)
-    MUI_XYA("P1", 5, 25, 0) 
-    MUI_XYA("P1", 5, 37, 1) 
-    MUI_XYA("P1", 5, 49, 2) 
+    MUI_XYA("P1", 5, 25, 0)
+    MUI_XYA("P1", 5, 37, 1)
+    MUI_XYA("P1", 5, 49, 2)
     MUI_XYA("P1", 5, 61, 3)
 
     // Menu 34: profile details (PID)
@@ -494,9 +494,9 @@ fds_t fds_data[] = {
         MUI_61 "Erase EEPROM|"
         MUI_30 "<-Return"  // back to view 30
     )
-    MUI_XYA("GC", 5, 25, 0) 
-    MUI_XYA("GC", 5, 37, 1) 
-    MUI_XYA("GC", 5, 49, 2) 
+    MUI_XYA("GC", 5, 25, 0)
+    MUI_XYA("GC", 5, 37, 1)
+    MUI_XYA("GC", 5, 49, 2)
     MUI_XYA("GC", 5, 61, 3)
 
     // Servo Gate submenu
@@ -521,9 +521,9 @@ fds_t fds_data[] = {
         MUI_41 "Wifi Info|"
         MUI_1 "<-Return"  // back to view 1
     )
-    MUI_XYA("GC", 5, 25, 0) 
-    MUI_XYA("GC", 5, 37, 1) 
-    MUI_XYA("GC", 5, 49, 2) 
+    MUI_XYA("GC", 5, 25, 0)
+    MUI_XYA("GC", 5, 37, 1)
+    MUI_XYA("GC", 5, 49, 2)
     MUI_XYA("GC", 5, 61, 3)
 
     // Wifi info

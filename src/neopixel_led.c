@@ -1,4 +1,4 @@
-// 
+//
 //            -----
 //        5V |10  9 | GND
 //        -- | 8  7 | --
@@ -15,10 +15,10 @@
 //  (LCD_SCK)| 2  1 | --
 //            ------
 //             EXP2
-// 
+//
 // For Pico W
 // EXP1_6 (Neopixel) <-> PIN17 (GP13)
-// 
+//
 #include <stdint.h>
 #include <FreeRTOS.h>
 #include <task.h>
@@ -58,10 +58,10 @@ uint32_t urgbw_u32(rgbw_u32_t colour, neopixel_colour_order_t colour_order) {
                  ((uint32_t) (colour.b)) |
                  ((uint32_t) (colour.w) << 24);
     }
-    
+
     return output;
 }
- 
+
 static inline void put_pixel(pio_config_t * pio_config, uint32_t pixel_grb) {
     pio_sm_put_blocking(pio_config->pio, pio_config->sm, pixel_grb << 8u);
 }
@@ -92,8 +92,8 @@ void neopixel_led_set_colour(rgbw_u32_t mini12864_backlight_colour, rgbw_u32_t l
         return;  // unable to take mutex, return immediately
     }
 
-    /* Important: do not change the order of LED update operations. 
-       Neopixel LEDs on the same string are updated in the order they are sent. The update order has to be: 
+    /* Important: do not change the order of LED update operations.
+       Neopixel LEDs on the same string are updated in the order they are sent. The update order has to be:
         1. Encoder RGB1
         2. Encoder RGB2
         3. 12864 Backlight
@@ -117,7 +117,7 @@ void neopixel_led_set_colour(rgbw_u32_t mini12864_backlight_colour, rgbw_u32_t l
 
 bool neopixel_led_init(void) {
     bool is_ok = true;
-    
+
     // Initialize configuration
     memset(&neopixel_led_config, 0x0, sizeof(neopixel_led_config));
 
@@ -196,7 +196,7 @@ bool neopixel_led_init(void) {
     }
 
     ws2812_program_init(pio, sm, offset, NEOPIXEL_PWM3_PIN, 800000, neopixel_led_config.eeprom_neopixel_led_metadata.pwm_out_led_is_rgbw);
-    
+
     // Save pio and sm for later access
     neopixel_led_config.pwm3_pio_config.pio = pio;
     neopixel_led_config.pwm3_pio_config.sm = sm;
@@ -280,7 +280,7 @@ bool http_rest_neopixel_led_config(struct fs_file *file, int num_params, char *p
     }
 
     // Response
-    snprintf(neopixel_config_json_buffer, 
+    snprintf(neopixel_config_json_buffer,
              sizeof(neopixel_config_json_buffer),
              "%s"
              "{\"bl\":\"#%06lx\",\"l1\":\"#%06lx\",\"l2\":\"#%06lx\",\"l3\":%d,\"l4\":%s,\"l5\":%d}",

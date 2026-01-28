@@ -13,7 +13,7 @@ float FloatRingBuffer::getSd(void){
     }
 
     float sd = sqrt(sum_of_sqre / buffer_size);
-    
+
     return sd;
 }
 
@@ -38,10 +38,10 @@ FloatRingBuffer::FloatRingBuffer(const size_t size)
     :buffer_size(size)
 {
     reset();
-    
+
     // container
     // data = new T[buffer_size];
-    
+
     // use c styled memory allocation instead
     data = (float *)malloc(buffer_size * sizeof(float));
 }
@@ -71,7 +71,7 @@ void FloatRingBuffer::enqueue(float in)
 {
     data[write_ptr++] = in;
     write_ptr %= buffer_size;
-    
+
     if (count < buffer_size){
         count++;
     }
@@ -85,8 +85,8 @@ float FloatRingBuffer::dequeue()
     if (count > 0) {
         count--;
     }
-    
-    return temp;   
+
+    return temp;
 }
 
 void FloatRingBuffer::reset()
@@ -94,10 +94,10 @@ void FloatRingBuffer::reset()
     read_ptr = 0;
     write_ptr = 0;
     count = 0;
-    
+
     // mutex lock
-    mux = false; 
-    
+    mux = false;
+
     // initialize overflow
     clearOverFlow();
 }
@@ -125,7 +125,7 @@ bool FloatRingBuffer::getOverFlow()
 
 void FloatRingBuffer::clearOverFlow()
 {
-    is_over_flow = false;  
+    is_over_flow = false;
 }
 
 float FloatRingBuffer::first()

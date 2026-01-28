@@ -39,7 +39,7 @@ bool string_to_boolean(char * s) {
 
 int float_to_string(char * output_decimal_str, float var, decimal_places_t decimal_places) {
     int return_value = 0;
-    
+
     switch (decimal_places) {
         case DP_2:
             return_value = sprintf(output_decimal_str, "%0.02f", var);
@@ -50,6 +50,6 @@ int float_to_string(char * output_decimal_str, float var, decimal_places_t decim
         default:
             break;
     }
-    
+
     return return_value;
 }

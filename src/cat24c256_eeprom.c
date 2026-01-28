@@ -85,7 +85,7 @@ bool cat24c256_eeprom_erase() {
     uint8_t dummy_buffer[PAGE_SIZE];
     memset(dummy_buffer, 0xff, PAGE_SIZE);
 
-    
+
     for (size_t page=0; page < 512; page++) {
         size_t page_offset = page * PAGE_SIZE;
         cat24c256_write(page_offset, dummy_buffer, PAGE_SIZE);

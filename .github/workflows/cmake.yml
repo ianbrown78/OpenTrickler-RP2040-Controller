@@ -23,12 +23,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-      with: 
+      with:
         fetch-depth: 0          # Fetch all branches and tags
         submodules: recursive   # Automatically pull all submodules
-      
+
     - name: Install Build Dependencies
-      run: | 
+      run: |
         sudo apt-get update
         sudo apt install -y cmake gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential libstdc++-arm-none-eabi-newlib python3
 
@@ -40,10 +40,10 @@ jobs:
 
     - name: Archive Debug Artifact
       uses: actions/upload-artifact@v4
-      with: 
+      with:
         name: pico2_w_package
         path: |
-          src/generated/version.c  
+          src/generated/version.c
           build_pico2_w/*.bin
           build_pico2_w/*.dis
           build_pico2_w/*.elf
@@ -59,10 +59,10 @@ jobs:
 
     - name: Archive Debug Artifact
       uses: actions/upload-artifact@v4
-      with: 
+      with:
         name: pico_w_package
         path: |
-          src/generated/version.c  
+          src/generated/version.c
           build_pico_w/*.bin
           build_pico_w/*.dis
           build_pico_w/*.elf

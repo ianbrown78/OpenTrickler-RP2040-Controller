@@ -1,4 +1,4 @@
-// 
+//
 //            -----
 //        5V |10  9 | GND
 //        -- | 8  7 | --
@@ -15,7 +15,7 @@
 //  (LCD_SCK)| 2  1 | --
 //            ------
 //             EXP2
-// 
+//
 // For Pico W
 // EXP1_2 (BTN_ENC) <-> PIN29 (GP22)
 // EXP2_5 (ENCODER2) <-> PIN19 (GP14)
@@ -125,7 +125,7 @@ void _isr_on_encoder_update(uint gpio, uint32_t event){
         else {
             button_encoder_event = BUTTON_ENCODER_ROTATE_CW;
         }
-        
+
         if (encoder_event_queue) {
             xQueueSendFromISR(encoder_event_queue, &button_encoder_event, NULL);
         }
@@ -214,7 +214,7 @@ bool mini_12864_module_init() {
 
     return is_ok;
 }
-  
+
 
 void button_init() {
     printf("Initializing Button Task -- ");
@@ -261,7 +261,7 @@ uint8_t u8x8_gpio_and_delay(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
             // We don't initialize here
             break;							// can be used to setup pins
         case U8X8_MSG_DELAY_NANO:			// delay arg_int * 1 nano second
-            break;    
+            break;
         case U8X8_MSG_DELAY_100NANO:		// delay arg_int * 100 nano seconds
             __asm volatile ("NOP\n");
             break;
@@ -332,7 +332,7 @@ uint8_t u8x8_gpio_and_delay(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *ar
     return 1;
 }
 
-uint8_t u8x8_byte_pico_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr) 
+uint8_t u8x8_byte_pico_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
     switch (msg)
     {
@@ -348,7 +348,7 @@ uint8_t u8x8_byte_pico_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *
             u8x8_gpio_SetDC(u8x8, arg_int);
             break;
         case U8X8_MSG_BYTE_START_TRANSFER:
-            u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_enable_level);  
+            u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_enable_level);
             u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->post_chip_enable_wait_ns, NULL);
             break;
         case U8X8_MSG_BYTE_END_TRANSFER:
@@ -392,9 +392,9 @@ void display_init() {
 
     // Initialize driver
     u8g2_Setup_uc1701_mini12864_f(
-        &display_handler, 
-        U8G2_R0, 
-        u8x8_byte_pico_hw_spi, 
+        &display_handler,
+        U8G2_R0,
+        u8x8_byte_pico_hw_spi,
         u8x8_gpio_and_delay
     );
 
@@ -423,7 +423,7 @@ void display_init() {
     }
     u8g2_SetDisplayRotation(&display_handler, u8g2_cb);
 
-    // Clear 
+    // Clear
     u8g2_ClearBuffer(&display_handler);
     u8g2_ClearDisplay(&display_handler);
 
@@ -452,7 +452,7 @@ bool http_rest_button_control(struct fs_file *file, int num_params, char *params
                 strcat(button_control_json_buffer, "\"CW\",");
             }
         }
-        
+
         if (strcmp(params[idx], "CCW") == 0) {
             if (strcmp(values[idx], "true") == 0){
                 ButtonEncoderEvent_t button_event = BUTTON_ENCODER_ROTATE_CCW;
@@ -529,13 +529,13 @@ bool http_rest_mini_12864_module_config(struct fs_file *file, int num_params, ch
     }
 
     // Response
-    snprintf(buf, sizeof(buf), 
+    snprintf(buf, sizeof(buf),
              "%s"
-             "{\"b0\":%s, \"b1\":%d}", 
+             "{\"b0\":%s, \"b1\":%d}",
              http_json_header,
              boolean_to_string(mini_12864_module_config.inverted_encoder_direction),
              mini_12864_module_config.display_rotation);
-    
+
     size_t response_len = strlen(buf);
     file->data = buf;
     file->len = response_len;

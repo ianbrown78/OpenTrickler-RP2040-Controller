@@ -38,7 +38,7 @@ bool access_point_mode_start() {
     cyw43_arch_enable_ap_mode(ap_ssid, ap_password, CYW43_AUTH_WPA2_AES_PSK);
 
     // Initialize IP
-    IP4_ADDR(ip_2_ip4(&gw), 192, 168, 4, 1);  
+    IP4_ADDR(ip_2_ip4(&gw), 192, 168, 4, 1);
     IP4_ADDR(ip_2_ip4(&mask), 255, 255, 255, 0);
 
     // Start the dhcp server

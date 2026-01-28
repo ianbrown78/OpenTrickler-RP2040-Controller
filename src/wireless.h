@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include "http_rest.h"
 
-#define EEPROM_WIRELESS_CONFIG_METADATA_REV                     2              // 16 byte 
+#define EEPROM_WIRELESS_CONFIG_METADATA_REV                     2              // 16 byte
 
 
 typedef enum {

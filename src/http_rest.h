@@ -133,7 +133,7 @@ typedef enum {
 } http_method_t;
 
 
-typedef bool (*rest_handler_t)(struct fs_file *file, int num_params, char *params[], char *values[]); 
+typedef bool (*rest_handler_t)(struct fs_file *file, int num_params, char *params[], char *values[]);
 
 #ifdef __cplusplus
 extern "C" {
@@ -147,7 +147,7 @@ rest_handler_t rest_get_handler(const char *uri);
 #ifdef __cplusplus
 }  // __cplusplus
 #endif
-// 
+//
 
 
 #endif /* HTTP_REST_H_ */

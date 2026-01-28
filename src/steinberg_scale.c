@@ -12,7 +12,7 @@
 #include "scale.h"
 #include "app.h"
 
-/* 
+/*
   Example data
     S       0.00 GN
     S       0.00 GN
@@ -24,7 +24,7 @@ typedef union {
     struct __attribute__((__packed__)) {
         char header[2];         // S or SD
         char data[10];          // Signed integer
-        char unit[2];           // GN (or something else)   
+        char unit[2];           // GN (or something else)
         char terminator[2];     // \r\n (carriage return)
     };
     char bytes[16];
@@ -61,7 +61,7 @@ void _steinberg_scale_listener_task(void *p) {
     steinberg_sbs_data_format_t frame;
 
     while (true) {
-        // Read all data 
+        // Read all data
         while (uart_is_readable(SCALE_UART)) {
             char ch = uart_getc(SCALE_UART);
 

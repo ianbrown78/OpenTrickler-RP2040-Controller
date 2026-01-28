@@ -54,7 +54,7 @@ void cleanup_render_task(void *p) {
         // Draw charge weight
         float current_weight = scale_get_current_measurement();
         memset(buf, 0x0, sizeof(buf));
-        
+
         // Convert to weight string with given decimal places
         char weight_string[WEIGHT_STRING_LEN];
         float_to_string(weight_string, current_weight, charge_mode_config.eeprom_charge_mode_data.decimal_places);
@@ -145,12 +145,12 @@ uint8_t cleanup_mode_menu() {
             case BUTTON_ENCODER_PRESSED:
                 cleanup_mode_config.trickler_speed = 0;
                 motor_set_speed(SELECT_BOTH_MOTOR, cleanup_mode_config.trickler_speed);
-                
+
                 break;
             default:
                 break;
         }
-        
+
     }
 
     motor_enable(SELECT_COARSE_TRICKLER_MOTOR, false);
@@ -200,7 +200,7 @@ bool http_rest_cleanup_mode_state(struct fs_file *file, int num_params, char *pa
     }
 
     // Response
-    snprintf(cleanup_mode_json_buffer, 
+    snprintf(cleanup_mode_json_buffer,
              sizeof(cleanup_mode_json_buffer),
              "%s"
              "{\"s0\":%d,\"s1\":%0.3f}",

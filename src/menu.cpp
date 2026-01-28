@@ -78,7 +78,7 @@ void menu_task(void *p){
                 case APP_STATE_ENTER_SCALE_CALIBRATION:
                     exit_form_id = scale_calibrate_with_external_weight();
                     break;
-                case APP_STATE_ENTER_EEPROM_SAVE: 
+                case APP_STATE_ENTER_EEPROM_SAVE:
                     exit_form_id = eeprom_save_all();
                     break;
                 case APP_STATE_ENTER_EEPROM_ERASE:

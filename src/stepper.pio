@@ -20,7 +20,7 @@ init:
     nop
     ; At this point we have dwelled 13 cycles (13*8=104 ns), fufilled typ dwell time at low
 
-    mov y, x       side 1 ; 
+    mov y, x       side 1 ;
 
 hold_high:                ; Wait for the counter
     jmp y-- hold_high     ; Hold high while looping

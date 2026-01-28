@@ -69,7 +69,7 @@ def main(output_path, build_type):
         capitalized_filename="VERSION", version_string=version_string, hash_string=hash_string, build_type=build_type)
     logging.debug(f"c_header_string={c_source_string}")
 
-    
+
     c_header_filepath = os.path.join(output_path, "version.h")
     with open(c_header_filepath, "w") as fp:
         logging.debug(f"Write to {c_header_filepath}")
@@ -88,7 +88,7 @@ if __name__ == "__main__":
     parser.add_argument('--build-type', help="CMake build type", required=True)
 
     parser.add_argument('-v', '--verbose', action='count', default=0)
-    
+
 
     args = parser.parse_args()
 
@@ -98,7 +98,7 @@ if __name__ == "__main__":
                       3: logging.WARNING,
                       4: logging.ERROR,
                       5: logging.CRITICAL}
-    
+
     logging.basicConfig(stream=sys.stdout, level=logging_levels[args.verbose])
 
     main(args.output_filepath, args.build_type)

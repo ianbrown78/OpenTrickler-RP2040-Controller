@@ -3,7 +3,7 @@
 
 #include <stdbool.h>
 
-// The REST App control is designed to replace the button event while the OpenTrickler is operated under screenless mode. 
+// The REST App control is designed to replace the button event while the OpenTrickler is operated under screenless mode.
 // On REST action is issued from the REST endpoint, the REST control will send OVERRIDE_FROM_REST to the button queue to
 // request the application to poll from the REST action queue, then act accoridngly.
 

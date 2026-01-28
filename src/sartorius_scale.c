@@ -33,13 +33,13 @@ scale_handle_t sartorius_scale_handle = {
 };
 
 static float _decode_measurement_msg(const char *msg, size_t len) {
-    // Parse Sartorius format: 
+    // Parse Sartorius format:
     // Examples: "     0.000 GN" or "+   27.350" or "+   62.916 GN"
     // Format: optional sign, spaces, decimal number, optional spaces and unit
-    
+
     int sign = 1;
     size_t start = 0;
-    
+
     // Check for sign at the beginning
     if (len > 0 && (msg[0] == '-' || msg[0] == '+')) {
         if (msg[0] == '-') {
@@ -47,44 +47,44 @@ static float _decode_measurement_msg(const char *msg, size_t len) {
         }
         start = 1;
     }
-    
+
     // Skip leading spaces
     while (start < len && msg[start] == ' ') {
         start++;
     }
-    
+
     // Parse the number using strtof which will stop at the first non-numeric character
     float value = 0.0f;
     if (start < len) {
         value = strtof(&msg[start], NULL);
     }
-    
+
     return sign * value;
 }
 
 void _sartorius_scale_listener_task(void *p) {
     sartorius_buffer_t buf = {0};
-    
+
     while (true) {
         // Read all available data
         while (uart_is_readable(SCALE_UART)) {
             char ch = uart_getc(SCALE_UART);
-            
+
             // Look for line terminators
             if (ch == '\r' || ch == '\n') {
                 if (buf.index > 0) {
                     // We have a complete message
                     buf.buffer[buf.index] = '\0';
-                    
+
                     // Decode the measurement
                     float weight = _decode_measurement_msg(buf.buffer, buf.index);
-                    
+
                     // Update the global measurement
                     scale_config.current_scale_measurement = weight;
-                    
+
                     // Signal that measurement is ready
                     xSemaphoreGive(scale_config.scale_measurement_ready);
-                    
+
                     // Reset buffer
                     buf.index = 0;
                     memset(buf.buffer, 0, sizeof(buf.buffer));
@@ -98,7 +98,7 @@ void _sartorius_scale_listener_task(void *p) {
                 memset(buf.buffer, 0, sizeof(buf.buffer));
             }
         }
-        
+
         // Small delay to prevent task starvation
         vTaskDelay(pdMS_TO_TICKS(1));
     }

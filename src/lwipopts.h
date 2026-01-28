@@ -28,7 +28,7 @@
 // Lwip features
 #define LWIP_HTTPD_CGI                  1    // Enable HTTPCGI
 #define LWIP_HTTPD_SUPPORT_POST         0    // Enable POST
-#define LWIP_HTTPD_CUSTOM_FILES         0   
+#define LWIP_HTTPD_CUSTOM_FILES         0
 #define LWIP_HTTPD_DYNAMIC_FILE_READ    0
 #define LWIP_HTTPD_DYNAMIC_HEADERS      0
 #define LWIP_HTTPD_MAX_REQUEST_URI_LEN  128

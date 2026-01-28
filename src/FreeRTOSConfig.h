@@ -106,7 +106,7 @@
 /* SMP( Symmetric MultiProcessing ) Specific Configuration definitions. *******/
 /******************************************************************************/
 #define configNUMBER_OF_CORES                   2
-#define configNUM_CORES                         configNUMBER_OF_CORES  // backward compatible with pick-sdk 
+#define configNUM_CORES                         configNUMBER_OF_CORES  // backward compatible with pick-sdk
 #define configRUN_MULTIPLE_PRIORITIES           1
 #define configUSE_CORE_AFFINITY                 1
 // #define configTASK_DEFAULT_CORE_AFFINITY        tskNO_AFFINITY

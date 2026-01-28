@@ -135,7 +135,7 @@ uint8_t scale_calibrate_with_external_weight() {
     strcpy(line2, "3 seconds");
 
     delay_ms(3000, scheduler_state);  // Wait for 3 seconds
-    
+
 
     vTaskSuspend(scale_calibration_render_task_handler);
 

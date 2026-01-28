@@ -82,7 +82,7 @@ target_link_libraries(u8g2_mui u8g2)
 add_subdirectory(${SRC_DIRECTORY})
 
 # Collect all source files
-file(GLOB SRC ${SRC_DIRECTORY}/*.c 
+file(GLOB SRC ${SRC_DIRECTORY}/*.c
               ${SRC_DIRECTORY}/*.cpp)
 
 # Include application source file

@@ -154,11 +154,11 @@ void charge_mode_wait_for_zero() {
     // Set colour to not ready
     neopixel_led_set_colour(
         neopixel_led_config.eeprom_neopixel_led_metadata.default_led_colours.mini12864_backlight_colour,
-        charge_mode_config.eeprom_charge_mode_data.neopixel_not_ready_colour, 
-        charge_mode_config.eeprom_charge_mode_data.neopixel_not_ready_colour, 
+        charge_mode_config.eeprom_charge_mode_data.neopixel_not_ready_colour,
+        charge_mode_config.eeprom_charge_mode_data.neopixel_not_ready_colour,
         true
     );
-    
+
     // Wait for 5 measurements and wait for stable
     FloatRingBuffer data_buffer(10);
 
@@ -187,7 +187,7 @@ void charge_mode_wait_for_zero() {
 
         // Generate stop condition
         if (data_buffer.getCounter() >= 10){
-            if (data_buffer.getSd() < charge_mode_config.eeprom_charge_mode_data.set_point_sd_margin && 
+            if (data_buffer.getSd() < charge_mode_config.eeprom_charge_mode_data.set_point_sd_margin &&
                 abs(data_buffer.getMean()) < charge_mode_config.eeprom_charge_mode_data.set_point_mean_margin) {
                 break;
             }
@@ -207,8 +207,8 @@ void charge_mode_wait_for_complete() {
     // Set colour to under charge
     neopixel_led_set_colour(
         neopixel_led_config.eeprom_neopixel_led_metadata.default_led_colours.mini12864_backlight_colour,
-        charge_mode_config.eeprom_charge_mode_data.neopixel_under_charge_colour, 
-        charge_mode_config.eeprom_charge_mode_data.neopixel_under_charge_colour, 
+        charge_mode_config.eeprom_charge_mode_data.neopixel_under_charge_colour,
+        charge_mode_config.eeprom_charge_mode_data.neopixel_under_charge_colour,
         true
     );
 
@@ -221,8 +221,8 @@ void charge_mode_wait_for_complete() {
     char target_weight_string[WEIGHT_STRING_LEN];
     float_to_string(target_weight_string, charge_mode_config.target_charge_weight, charge_mode_config.eeprom_charge_mode_data.decimal_places);
 
-    snprintf(title_string, sizeof(title_string), 
-             "Target: %s", 
+    snprintf(title_string, sizeof(title_string),
+             "Target: %s",
              target_weight_string);
 
     // Read trickling parameter from the current profile
@@ -310,7 +310,7 @@ void charge_mode_wait_for_complete() {
         last_error = error;
     }
 
-    // Stop the timer 
+    // Stop the timer
     TickType_t now = xTaskGetTickCount();
     TickType_t elapsed_ticks = now - charge_start_tick;
     last_charge_elapsed_seconds = (float)(elapsed_ticks * portTICK_PERIOD_MS) / 1000.0f;
@@ -332,7 +332,7 @@ void charge_mode_wait_for_complete() {
         motor_set_speed(SELECT_COARSE_TRICKLER_MOTOR, 0);
     }
     else {
-        vTaskDelay(pdMS_TO_TICKS(20));  // Wait for other tasks to complete  
+        vTaskDelay(pdMS_TO_TICKS(20));  // Wait for other tasks to complete
     }
 
     charge_mode_config.charge_mode_state = CHARGE_MODE_WAIT_FOR_CUP_REMOVAL;
@@ -356,8 +356,8 @@ void charge_mode_wait_for_cup_removal() {
     if (error <= -charge_mode_config.eeprom_charge_mode_data.fine_stop_threshold) {
         neopixel_led_set_colour(
             neopixel_led_config.eeprom_neopixel_led_metadata.default_led_colours.mini12864_backlight_colour,
-            charge_mode_config.eeprom_charge_mode_data.neopixel_over_charge_colour, 
-            charge_mode_config.eeprom_charge_mode_data.neopixel_over_charge_colour, 
+            charge_mode_config.eeprom_charge_mode_data.neopixel_over_charge_colour,
+            charge_mode_config.eeprom_charge_mode_data.neopixel_over_charge_colour,
             true
         );
 
@@ -367,9 +367,9 @@ void charge_mode_wait_for_cup_removal() {
     // Under charged
     else if (error >= charge_mode_config.eeprom_charge_mode_data.fine_stop_threshold) {
         neopixel_led_set_colour(
-            neopixel_led_config.eeprom_neopixel_led_metadata.default_led_colours.mini12864_backlight_colour, 
-            charge_mode_config.eeprom_charge_mode_data.neopixel_under_charge_colour, 
-            charge_mode_config.eeprom_charge_mode_data.neopixel_under_charge_colour, 
+            neopixel_led_config.eeprom_neopixel_led_metadata.default_led_colours.mini12864_backlight_colour,
+            charge_mode_config.eeprom_charge_mode_data.neopixel_under_charge_colour,
+            charge_mode_config.eeprom_charge_mode_data.neopixel_under_charge_colour,
             true
         );
 
@@ -380,9 +380,9 @@ void charge_mode_wait_for_cup_removal() {
     // Normal
     else {
         neopixel_led_set_colour(
-            neopixel_led_config.eeprom_neopixel_led_metadata.default_led_colours.mini12864_backlight_colour, 
-            charge_mode_config.eeprom_charge_mode_data.neopixel_normal_charge_colour, 
-            charge_mode_config.eeprom_charge_mode_data.neopixel_normal_charge_colour, 
+            neopixel_led_config.eeprom_neopixel_led_metadata.default_led_colours.mini12864_backlight_colour,
+            charge_mode_config.eeprom_charge_mode_data.neopixel_normal_charge_colour,
+            charge_mode_config.eeprom_charge_mode_data.neopixel_normal_charge_colour,
             true
         );
 
@@ -411,7 +411,7 @@ void charge_mode_wait_for_cup_removal() {
 
         // Generate stop condition
         if (data_buffer.getCounter() >= 5) {
-            if (data_buffer.getSd() < charge_mode_config.eeprom_charge_mode_data.set_point_sd_margin && 
+            if (data_buffer.getSd() < charge_mode_config.eeprom_charge_mode_data.set_point_sd_margin &&
                 data_buffer.getMean() + 10 < charge_mode_config.eeprom_charge_mode_data.set_point_mean_margin){
                 break;
             }
@@ -430,12 +430,12 @@ void charge_mode_wait_for_cup_removal() {
     charge_mode_config.charge_mode_state = CHARGE_MODE_WAIT_FOR_CUP_RETURN;
 }
 
-void charge_mode_wait_for_cup_return() { 
+void charge_mode_wait_for_cup_return() {
     // Set colour to not ready
     neopixel_led_set_colour(
-        neopixel_led_config.eeprom_neopixel_led_metadata.default_led_colours.mini12864_backlight_colour, 
-        charge_mode_config.eeprom_charge_mode_data.neopixel_not_ready_colour, 
-        charge_mode_config.eeprom_charge_mode_data.neopixel_not_ready_colour, 
+        neopixel_led_config.eeprom_neopixel_led_metadata.default_led_colours.mini12864_backlight_colour,
+        charge_mode_config.eeprom_charge_mode_data.neopixel_not_ready_colour,
+        charge_mode_config.eeprom_charge_mode_data.neopixel_not_ready_colour,
         true
     );
 
@@ -513,7 +513,7 @@ uint8_t charge_mode_menu(bool charge_mode_skip_user_input) {
     // Enable motor on entering the charge mode
     motor_enable(SELECT_COARSE_TRICKLER_MOTOR, true);
     motor_enable(SELECT_FINE_TRICKLER_MOTOR, true);
-    
+
     charge_mode_config.charge_mode_state = CHARGE_MODE_WAIT_FOR_ZERO;
 
     bool quit = false;
@@ -631,7 +631,7 @@ bool http_rest_charge_mode_config(struct fs_file *file, int num_params, char *pa
         else if (strcmp(params[idx], "c9") == 0) {
             charge_mode_config.eeprom_charge_mode_data.decimal_places = (decimal_places_t) atoi(values[idx]);
         }
-        
+
         // Pre charge related settings
         else if (strcmp(params[idx], "c10") == 0) {
             charge_mode_config.eeprom_charge_mode_data.precharge_enable = string_to_boolean(values[idx]);
@@ -660,14 +660,14 @@ bool http_rest_charge_mode_config(struct fs_file *file, int num_params, char *pa
             save_to_eeprom = string_to_boolean(values[idx]);
         }
     }
-    
+
     // Perform action
     if (save_to_eeprom) {
         charge_mode_config_save();
     }
 
     // Response
-    snprintf(charge_mode_json_buffer, 
+    snprintf(charge_mode_json_buffer,
              sizeof(charge_mode_json_buffer),
              "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n"
              "{\"c1\":\"#%06lx\",\"c2\":\"#%06lx\",\"c3\":\"#%06lx\",\"c4\":\"#%06lx\","
@@ -757,7 +757,7 @@ bool http_rest_charge_mode_state(struct fs_file *file, int num_params, char *par
     }
 
     // Response
-    snprintf(charge_mode_json_buffer, 
+    snprintf(charge_mode_json_buffer,
              sizeof(charge_mode_json_buffer),
              "%s"
              "{\"s0\":%0.3f,\"s1\":%s,\"s2\":%d,\"s3\":%lu,\"s4\":\"%s\",\"s5\":\"%s\"}",

@@ -107,7 +107,7 @@ void gpio_irq_handler::register_interrupt(uint gpio, irq_event event, gpio_irq_c
         gpio_set_irq_enabled_with_callback(gpio, event, true, &gpio_callback);
     else
         gpio_set_irq_enabled(gpio, event, true);
-    
+
     isr_list[get_core_num()][gpio] = callback;
 }
 

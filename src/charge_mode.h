@@ -7,7 +7,7 @@
 #include "neopixel_led.h"
 
 
-#define EEPROM_CHARGE_MODE_DATA_REV                     8              // 16 byte 
+#define EEPROM_CHARGE_MODE_DATA_REV                     8              // 16 byte
 
 #define WEIGHT_STRING_LEN 8
 

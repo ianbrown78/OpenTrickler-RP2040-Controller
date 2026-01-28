@@ -82,7 +82,7 @@ bool _block_wait_for_sync(uart_inst_t * uart) {
         else {
             return false;
         }
-    } while (c != 0x05); 
+    } while (c != 0x05);
 
     return true;
 }
@@ -119,7 +119,7 @@ void tmc_uart_write (trinamic_motor_t driver, TMC_uart_write_datagram_t *datagra
 
 TMC_uart_write_datagram_t *tmc_uart_read (trinamic_motor_t driver, TMC_uart_read_datagram_t *datagram)
 {
-    static TMC_uart_write_datagram_t wdgr = {0}; 
+    static TMC_uart_write_datagram_t wdgr = {0};
 
     uart_write_blocking(MOTOR_UART, datagram->data, sizeof(TMC_uart_read_datagram_t));
 
@@ -127,7 +127,7 @@ TMC_uart_write_datagram_t *tmc_uart_read (trinamic_motor_t driver, TMC_uart_read
     busy_wait_us(20);
     _enable_uart_rx(MOTOR_UART, true);
     busy_wait_ms(2);
-    
+
     uint8_t sync_flag = 0x05;
     int8_t idx = -1;
     while (uart_is_readable_within_us(MOTOR_UART, 2000)) {
@@ -167,7 +167,7 @@ uint32_t speed_to_period(float speed, uint32_t pio_clock_speed, uint32_t full_ro
 
     // Limit by maximum response time
     uint32_t max_response_steps = pio_clock_speed * MAX_RESPONSE_TIME;
-    if (full_cycle_count > max_response_steps){ 
+    if (full_cycle_count > max_response_steps){
         full_cycle_count = 0;
     }
 
@@ -224,7 +224,6 @@ bool tmc2209_init (TMC2209_t *driver)
             return true;
         }
     }
-    
 
     return false;
 }
@@ -232,11 +231,11 @@ bool tmc2209_init (TMC2209_t *driver)
 
 bool driver_init(motor_config_t * motor_config) {
     // Copy the user config to the driver config and initialize the communication
-    // Return True if the initialization is successful, False otherwise. 
-    // This must be called after the UART is initialized. 
-    
+    // Return True if the initialization is successful, False otherwise.
+    // This must be called after the UART is initialized.
+
     // Check if the tmc driver is already initialized. If true then free the previously allocated
-    //  driver then re-create. 
+    //  driver then re-create.
     if (motor_config->tmc_driver) {
         free(motor_config->tmc_driver);
     }
@@ -267,9 +266,9 @@ bool driver_io_init(motor_config_t * motor_config) {
     gpio_init(motor_config->en_pin);
     gpio_set_dir(motor_config->en_pin, GPIO_OUT);
 
-    // If enable is inverted the GPIO shall output enable state directly, otherwise invert it. 
+    // If enable is inverted the GPIO shall output enable state directly, otherwise invert it.
     // If not inverted the GPIO shall be the opposite state of the enable signal
-    gpio_put(motor_config->en_pin, motor_config->persistent_config.inverted_enable ? false : true); 
+    gpio_put(motor_config->en_pin, motor_config->persistent_config.inverted_enable ? false : true);
 
     // Note: STEP PIN is controlled by PIO block
     // gpio_init(motor_config->step_pin);
@@ -291,12 +290,12 @@ bool driver_pio_init(motor_config_t * motor_config) {
     uint offset;
 
     is_ok = pio_claim_free_sm_and_add_program_for_gpio_range(
-        &stepper_program, 
-        &pio, 
-        &sm, 
-        &offset, 
-        motor_config->step_pin, 
-        1, 
+        &stepper_program,
+        &pio,
+        &sm,
+        &offset,
+        motor_config->step_pin,
+        1,
         true
     );
 
@@ -351,7 +350,7 @@ bool motor_config_init(void) {
             return false;
         }
     }
-    
+
     // Copy the initialized data back to the stack
     memcpy(&coarse_trickler_motor_config.persistent_config, &eeprom_motor_data.motor_data[0], sizeof(motor_persistent_config_t));
     memcpy(&fine_trickler_motor_config.persistent_config, &eeprom_motor_data.motor_data[1], sizeof(motor_persistent_config_t));
@@ -371,7 +370,7 @@ bool motor_config_save() {
     bool is_ok;
     eeprom_motor_data_t eeprom_motor_data;
 
-    // Set the versionf 
+    // Set the versionf
     eeprom_motor_data.motor_data_rev = EEPROM_MOTOR_DATA_REV;
 
     // Copy the live data to the EEPROM structure
@@ -417,7 +416,7 @@ void speed_ramp(motor_config_t * motor_config, float prev_speed, float new_speed
 }
 
 
-void stepper_speed_control_task(void * p) {    
+void stepper_speed_control_task(void * p) {
     // Currently doing speed control
     while (true) {
         // Wait for new speed
@@ -433,14 +432,14 @@ void stepper_speed_control_task(void * p) {
         // Determine if both have same direction (no need to change DIR pin state)
         if ((new_velocity >= 0) == (((motor_config_t *) p)->prev_velocity >= 0)) {
             // Same direction means only speed change
-            speed_ramp(((motor_config_t *) p), 
-                       fabs(((motor_config_t *) p)->prev_velocity), 
-                       fabs(new_velocity), 
+            speed_ramp(((motor_config_t *) p),
+                       fabs(((motor_config_t *) p)->prev_velocity),
+                       fabs(new_velocity),
                        pio_speed);
         }
         else {
             // Different direction, then ramp down to 0, change direction then ramp up
-            speed_ramp(((motor_config_t *) p), 
+            speed_ramp(((motor_config_t *) p),
                        fabs(((motor_config_t *) p)->prev_velocity),
                        0.0f,
                        pio_speed);
@@ -450,7 +449,7 @@ void stepper_speed_control_task(void * p) {
             gpio_put(((motor_config_t *) p)->dir_pin, ((motor_config_t *) p)->step_direction);
 
             // Ramp to the new speed
-            speed_ramp(((motor_config_t *) p), 
+            speed_ramp(((motor_config_t *) p),
                        0.0f,
                        fabs(new_velocity),
                        pio_speed);
@@ -459,7 +458,7 @@ void stepper_speed_control_task(void * p) {
         // Update speed
         ((motor_config_t *) p)->prev_velocity = new_velocity;
     }
-}   
+}
 
 
 void motor_set_speed(motor_select_t selected_motor, float new_velocity) {
@@ -512,7 +511,7 @@ uint16_t get_motor_max_speed(motor_select_t selected_motor) {
     case SELECT_FINE_TRICKLER_MOTOR:
         motor_config = &fine_trickler_motor_config;
         break;
-    
+
     default:
         assert(false);
         break;
@@ -536,7 +535,7 @@ float get_motor_min_speed(motor_select_t selected_motor) {
     case SELECT_FINE_TRICKLER_MOTOR:
         motor_config = &fine_trickler_motor_config;
         break;
-    
+
     default:
         break;
     }
@@ -576,28 +575,28 @@ motor_init_err_t motors_init(void) {
 
     _enable_uart_rx(MOTOR_UART, false);
 
-    // 
+    //
     // Enable coarse trickler motor at UART ADDR 0
-    // 
+    //
     driver_io_init(&coarse_trickler_motor_config);
 
     // Allocate PIO to the stepper
     driver_pio_init(&coarse_trickler_motor_config);
 
-    // Initialize the stepper driver 
+    // Initialize the stepper driver
     is_ok = driver_init(&coarse_trickler_motor_config);
     if (!is_ok) {
         return MOTOR_INIT_COARSE_DRV_ERR;
     }
 
-    // 
+    //
     // Initialize fine trickler motor at UART ADDR 1
-    // 
+    //
     driver_io_init(&fine_trickler_motor_config);
 
     // Allocate PIO to the stepper
     driver_pio_init(&fine_trickler_motor_config);
-    
+
     // Initialize the stepper driver
     is_ok = driver_init(&fine_trickler_motor_config);
     if (!is_ok) {
@@ -609,18 +608,18 @@ motor_init_err_t motors_init(void) {
     fine_trickler_motor_config.stepper_speed_control_queue = xQueueCreate(2, sizeof(stepper_speed_control_t));
 
     // Create one task for each stepper controller
-    xTaskCreate(stepper_speed_control_task, 
-                "Coarse Trickler", 
-                configMINIMAL_STACK_SIZE, 
-                (void *) &coarse_trickler_motor_config, 
+    xTaskCreate(stepper_speed_control_task,
+                "Coarse Trickler",
+                configMINIMAL_STACK_SIZE,
+                (void *) &coarse_trickler_motor_config,
                 9,  // Coarse trickler at higher priority to response faster to stop
                 &coarse_trickler_motor_config.stepper_speed_control_task_handler);
 
-    xTaskCreate(stepper_speed_control_task, 
-                "Fine Trickler", 
-                configMINIMAL_STACK_SIZE, 
-                (void *) &fine_trickler_motor_config, 
-                8, 
+    xTaskCreate(stepper_speed_control_task,
+                "Fine Trickler",
+                configMINIMAL_STACK_SIZE,
+                (void *) &fine_trickler_motor_config,
+                8,
                 &fine_trickler_motor_config.stepper_speed_control_task_handler);
 
     return MOTOR_INIT_OK;
@@ -644,8 +643,8 @@ const char * get_motor_select_string(motor_select_t selected_motor) {
 }
 
 
-/* 
-The function will assume the screen and cyw43 are already initialized. 
+/*
+The function will assume the screen and cyw43 are already initialized.
 */
 void handle_motor_init_error(motor_init_err_t err) {
     char * error_string;
@@ -719,12 +718,12 @@ void populate_rest_motor_config(motor_config_t * motor_config, char * buf, size_
     // ee (bool): save to eeprom
 
     // Build response
-    snprintf(buf, 
+    snprintf(buf,
              max_len,
              "%s"
              "{\"m0\":%0.3f,\"m1\":%ld,\"m2\":%d,\"m3\":%d,\"m4\":%d,\"m5\":%d,\"m6\":%0.3f,\"m7\":%0.7f,\"m8\":%s,\"m9\":%s}",
              http_json_header,
-             motor_config->persistent_config.angular_acceleration, 
+             motor_config->persistent_config.angular_acceleration,
              motor_config->persistent_config.full_steps_per_rotation,
              motor_config->persistent_config.current_ma,
              motor_config->persistent_config.microsteps,

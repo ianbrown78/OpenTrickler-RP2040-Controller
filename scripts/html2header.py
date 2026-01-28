@@ -1,5 +1,5 @@
 """
-This script is created to convert HTML file into the C header file with compressed HTML (as well as CSS and JavaScripts). 
+This script is created to convert HTML file into the C header file with compressed HTML (as well as CSS and JavaScripts).
 
 Usage
 
@@ -31,7 +31,7 @@ const char html_{lowercase_filename}[] = "{html_string}";
 
 #endif  //  {capitalized_filename}_H_
 """
- 
+
 
 def main(input_filepth, output_filepath, skip_minify):
     logging.debug(f"Input path: {input_filepth}, output path: {output_filepath}")
@@ -41,11 +41,11 @@ def main(input_filepth, output_filepath, skip_minify):
 
     if not skip_minify:
         # Minify the HTML with the javascript
-        minified_html = minify_html.minify(input_file, 
-                                        do_not_minify_doctype=True, 
+        minified_html = minify_html.minify(input_file,
+                                        do_not_minify_doctype=True,
                                         minify_js=True,
-                                        minify_css=True, 
-                                        keep_html_and_head_opening_tags=False, 
+                                        minify_css=True,
+                                        keep_html_and_head_opening_tags=False,
                                         keep_closing_tags=False)
         logging.debug(minified_html)
     else:
@@ -65,7 +65,7 @@ def main(input_filepth, output_filepath, skip_minify):
 
     # Escape some basic illegal variable names
     filename = filename.replace('.', '_').replace('-', '_')
-    
+
     c_header_string = C_HEADER_TEMPLATE.format(
         capitalized_filename=filename.upper(),
         lowercase_filename=filename.lower(),
@@ -93,7 +93,7 @@ if __name__ == "__main__":
     parser.add_argument('--no-minify', help="Do not minify the input file", default=False, action='store_true')
 
     parser.add_argument('-v', '--verbose', action='count', default=0)
-    
+
 
     args = parser.parse_args()
 
@@ -103,7 +103,7 @@ if __name__ == "__main__":
                       3: logging.WARNING,
                       4: logging.ERROR,
                       5: logging.CRITICAL}
-    
+
     logging.basicConfig(stream=sys.stdout, level=logging_levels[args.verbose])
 
     main(args.input_filepath, args.output_filepath, skip_minify=args.no_minify)

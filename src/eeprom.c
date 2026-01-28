@@ -42,9 +42,9 @@ static _eeprom_save_handler_node_t * eeprom_save_handler_head = NULL;
 uint32_t rnd(void){
     int k, random=0;
     volatile uint32_t *rnd_reg=(uint32_t *)(ROSC_BASE + ROSC_RANDOMBIT_OFFSET);
-    
+
     for(k=0;k<32;k++){
-    
+
     random = random << 1;
     random = random + (0x00000001 & (*rnd_reg));
 
@@ -79,7 +79,7 @@ uint8_t eeprom_erase(bool reboot) {
     if (reboot) {
         software_reboot();
     }
-    
+
     return 37;  // Configuration Menu ID
 }
 
@@ -92,7 +92,7 @@ bool eeprom_init(void) {
         printf("Unable to create EEPROM mutex\n");
         return false;
     }
-    
+
     cat24c256_eeprom_init();
 
     // Read data revision, if match then move forward

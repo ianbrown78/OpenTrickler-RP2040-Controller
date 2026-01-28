@@ -21,7 +21,7 @@ typedef enum {
 
 
 typedef struct {
-    
+
 } app_persistent_config_t;
 
 

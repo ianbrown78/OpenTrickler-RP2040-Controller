@@ -20,4 +20,4 @@ int software_reboot(void);
 #endif
 
 
-#endif  // 
+#endif  //

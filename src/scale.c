@@ -29,7 +29,7 @@ scale_config_t scale_config;
 void set_scale_driver(scale_driver_t scale_driver) {
     // Update the persistent settings
     scale_config.persistent_config.scale_driver = scale_driver;
-    
+
     switch (scale_driver) {
         case SCALE_DRIVER_AND_FXI:
         {
@@ -166,7 +166,7 @@ bool scale_init() {
 
     // Initialize UART
     uart_init(SCALE_UART, get_scale_baudrate(scale_config.persistent_config.scale_baudrate));
-    
+
     // Set UART format: 7 data bits, 1 stop bit, no parity
     uart_set_format(SCALE_UART, 7, 1, UART_PARITY_NONE);
 
@@ -174,7 +174,7 @@ bool scale_init() {
     gpio_set_function(SCALE_UART_RX, GPIO_FUNC_UART);
 
     // Create control variables
-    // Semaphore to indicate the availability of new measurement. 
+    // Semaphore to indicate the availability of new measurement.
     scale_config.scale_measurement_ready = xSemaphoreCreateBinary();
 
     // Mutex to control the access to the serial port write
@@ -254,7 +254,7 @@ bool scale_block_wait_for_next_measurement(uint32_t block_time_ms, float * curre
 
         return true;
     }
-    
+
     // No valid measurement
     return false;
 }
@@ -289,14 +289,14 @@ bool http_rest_scale_config(struct fs_file *file, int num_params, char *params[]
         scale_config_save();
     }
 
-    snprintf(scale_config_to_json_buffer, 
+    snprintf(scale_config_to_json_buffer,
              sizeof(scale_config_to_json_buffer),
              "%s"
-             "{\"s0\":%d,\"s1\":%d}", 
+             "{\"s0\":%d,\"s1\":%d}",
              http_json_header,
-             scale_config.persistent_config.scale_driver, 
+             scale_config.persistent_config.scale_driver,
              scale_config.persistent_config.scale_baudrate);
-    
+
     size_t data_length = strlen(scale_config_to_json_buffer);
     file->data = scale_config_to_json_buffer;
     file->len = data_length;
@@ -310,19 +310,19 @@ bool http_rest_scale_config(struct fs_file *file, int num_params, char *params[]
 bool http_rest_scale_action(struct fs_file *file, int num_params, char *params[], char *values[]) {
     // Mappings:
     // a0 (scale_action_t): Command to the scale
-    
+
     // Control
     scale_action_t action = SCALE_ACTION_NO_ACTION;
 
     for (int idx = 0; idx < num_params; idx += 1) {
         if (strcmp(params[idx], "a0") == 0) {
             action = (scale_action_t) atoi(values[idx]);
-            
+
             switch (action) {
                 case SCALE_ACTION_FORCE_ZERO:
                     scale_config.scale_handle->force_zero();
                     break;
-                default: 
+                default:
                     break;
             }
         }
@@ -331,7 +331,7 @@ bool http_rest_scale_action(struct fs_file *file, int num_params, char *params[]
     static char json_buffer[64];
 
     // Response
-    snprintf(json_buffer, 
+    snprintf(json_buffer,
              sizeof(json_buffer),
              "%s"
              "{\"a0\":%d}",

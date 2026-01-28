@@ -21,7 +21,7 @@ ButtonEncoderEvent_t button_wait_for_input(bool block) {
     // Need to check if the queue has been initialized
     if (encoder_event_queue == NULL) {
         return BUTTON_NO_EVENT;
-    } 
+    }
 
     ButtonEncoderEvent_t button_encoder_event;
     if (!xQueueReceive(encoder_event_queue, &button_encoder_event, delay_ticks)){

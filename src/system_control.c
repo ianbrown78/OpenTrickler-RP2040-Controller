@@ -43,7 +43,7 @@ bool http_rest_system_control(struct fs_file *file, int num_params, char *params
         }
         else if (strcmp(params[idx], "s6") == 0) {
             erase_eeprom_flag = string_to_boolean(values[idx]);
-        } 
+        }
     }
 
     if (save_to_eeprom_flag) {
@@ -59,10 +59,10 @@ bool http_rest_system_control(struct fs_file *file, int num_params, char *params
     }
 
     // Response
-    snprintf(eeprom_config_json_buffer, 
+    snprintf(eeprom_config_json_buffer,
              sizeof(eeprom_config_json_buffer),
              "%s"
-             "{\"s0\":\"%s\",\"s1\":\"%s\",\"s2\":\"%s\",\"s3\":\"%s\",\"s4\":%s,\"s5\":%s,\"s6\":%s}", 
+             "{\"s0\":\"%s\",\"s1\":\"%s\",\"s2\":\"%s\",\"s3\":\"%s\",\"s4\":%s,\"s5\":%s,\"s6\":%s}",
              http_json_header,
              metadata.unique_id, version_string, vcs_hash, build_type,
              boolean_to_string(save_to_eeprom_flag),

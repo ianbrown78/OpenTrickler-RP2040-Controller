@@ -12,14 +12,14 @@
 #include "scale.h"
 #include "app.h"
 
-/* 
+/*
 Example data
 -0000.00 GN \r\n
 +0000.00 GN \r\n
 +0142.02 GN \r\n
 +0.32445 oz \r\n
 +045.991 ct \r\n
-+0.02027 lb \r\n 
++0.02027 lb \r\n
 +009.198 g  \r\n
 */
 
@@ -29,7 +29,7 @@ typedef union {
         char data[7];           // Unsigned integer with leading zeros
         char _space;            // Space
         char unit[2];           // Unit GN (or something else)
-        char _space2;           // Space   
+        char _space2;           // Space
         char terminator[2];     // \r\n (carriage return)
     };
     char bytes[14];
@@ -74,7 +74,7 @@ void _creedmoor_scale_listener_task(void *p) {
     creedmoor_data_format_t frame;
 
     while (true) {
-        // Read all data 
+        // Read all data
         while (uart_is_readable(SCALE_UART)) {
             char ch = uart_getc(SCALE_UART);
 

@@ -103,7 +103,7 @@ void wirelss_info_render_task(void *p) {
         }
 
         // Draw link status
-        if (wireless_config.current_wireless_state == WIRELESS_STATE_STA_MODE_INIT || 
+        if (wireless_config.current_wireless_state == WIRELESS_STATE_STA_MODE_INIT ||
             wireless_config.current_wireless_state == WIRELESS_STATE_STA_MODE_LISTEN) {
                 int link_status = cyw43_wifi_link_status(&cyw43_state, CYW43_ITF_STA);
                 char * link_status_string = NULL;
@@ -252,7 +252,7 @@ void led_interface_task(void *p) {
             xQueueSend(wireless_ctrl_queue, &wireless_ctrl, 0);
         }
 
-        
+
         vTaskDelay(pdMS_TO_TICKS(MAX(blink_interval_ms, LED_INTERFACE_MINIMUM_POLL_PERIOD_MS)));
     }
 }
@@ -401,10 +401,10 @@ bool http_rest_wireless_config(struct fs_file *file, int num_params, char *param
     // If the argument includes control, then update the settings
     for (int idx = 0; idx < num_params; idx += 1) {
         if (strcmp(params[idx], "w0") == 0) {
-            strncpy(wireless_config.eeprom_wireless_metadata.ssid, values[idx], sizeof(wireless_config.eeprom_wireless_metadata.ssid)); 
+            strncpy(wireless_config.eeprom_wireless_metadata.ssid, values[idx], sizeof(wireless_config.eeprom_wireless_metadata.ssid));
         }
         else if (strcmp(params[idx], "w1") == 0) {
-            strncpy(wireless_config.eeprom_wireless_metadata.pw, values[idx], sizeof(wireless_config.eeprom_wireless_metadata.pw)); 
+            strncpy(wireless_config.eeprom_wireless_metadata.pw, values[idx], sizeof(wireless_config.eeprom_wireless_metadata.pw));
         }
         else if (strcmp(params[idx], "w2") == 0) {
             cyw43_auth_t auth = (cyw43_auth_t) atoi(values[idx]);
@@ -429,7 +429,7 @@ bool http_rest_wireless_config(struct fs_file *file, int num_params, char *param
     }
 
     // Response
-    snprintf(wireless_config_json_buffer, 
+    snprintf(wireless_config_json_buffer,
              sizeof(wireless_config_json_buffer),
              "%s"
              "{\"w0\":\"%s\",\"w2\":%d,\"w3\":%"PRId32",\"w4\":%s}",

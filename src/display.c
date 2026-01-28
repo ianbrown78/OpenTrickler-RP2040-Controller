@@ -34,7 +34,7 @@ void release_display_buffer_access() {
 }
 
 
-/* u8g2 buffer structure can be decoded according to the description here: 
+/* u8g2 buffer structure can be decoded according to the description here:
     https://github.com/olikraus/u8g2/wiki/u8g2reference#memory-structure-for-controller-with-u8x8-support
 
     Here is the Python script helping to explain how u8g2 buffer are arranged.

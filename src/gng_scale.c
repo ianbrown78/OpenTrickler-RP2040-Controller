@@ -79,8 +79,8 @@ void _gng_scale_listener_task(void *p) {
         // Request for a data transfer (ESC p)
         uart_puts(SCALE_UART, CMD_REQUEST_DATA_TRANSFER);
 
-            // Read all data 
-        while (uart_is_readable(SCALE_UART)) {   
+            // Read all data
+        while (uart_is_readable(SCALE_UART)) {
             char ch = uart_getc(SCALE_UART);
             frame.bytes[string_buf_idx++] = ch;
 
@@ -108,10 +108,10 @@ void _gng_scale_listener_task(void *p) {
 }
 
 //G&G JJB key function
-//C4 communication setting - data signal command control 
+//C4 communication setting - data signal command control
 //standard ESC 0x1B to ! 0x22
 //hint:
-//For better syntax change standard setting 'C4' 27 'ESC' symbol at scale to 33 '!' sign 
+//For better syntax change standard setting 'C4' 27 'ESC' symbol at scale to 33 '!' sign
 
 //ESC p -> 0x1b 0x70 0x0D 0x0A standard setting
 // ! p -> 0x21 0x70 0x0D 0x0A

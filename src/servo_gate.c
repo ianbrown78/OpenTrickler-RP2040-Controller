@@ -101,7 +101,7 @@ void servo_gate_control_task(void * p) {
         }
         else {
             float delta = new_open_ratio - prev_open_ratio;
-            float speed = delta < 0 ? servo_gate.eeprom_servo_gate_config.shutter_open_speed_pct_s : 
+            float speed = delta < 0 ? servo_gate.eeprom_servo_gate_config.shutter_open_speed_pct_s :
                                       servo_gate.eeprom_servo_gate_config.shutter_close_speed_pct_s;
             uint32_t ramp_time_us = fabs(delta / speed) * 1e6;
 
@@ -228,9 +228,9 @@ bool http_rest_servo_gate_state(struct fs_file *file, int num_params, char *para
             servo_gate_set_state(state, false);
         }
     }
-    
+
     // Response
-    snprintf(servo_gate_json_buffer, 
+    snprintf(servo_gate_json_buffer,
              sizeof(servo_gate_json_buffer),
              "%s"
              "{\"g0\":%d}",
@@ -295,9 +295,9 @@ bool http_rest_servo_gate_config(struct fs_file *file, int num_params, char *par
     if (save_to_eeprom) {
         servo_gate_config_save();  // Note: this will save settings for both
     }
-    
+
     // Response
-    snprintf(servo_gate_json_buffer, 
+    snprintf(servo_gate_json_buffer,
              sizeof(servo_gate_json_buffer),
              "%s"
              "{\"c0\":%s,\"c1\":%0.3f,\"c2\":%0.3f,\"c3\":%0.3f,\"c4\":%0.3f,\"c5\":%0.3f,\"c6\":%0.3f}",

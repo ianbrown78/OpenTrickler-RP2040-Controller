@@ -39,7 +39,7 @@ scale_handle_t radwag_ps_r2_scale_handle = {
 
 /**
  * @brief Decode mass measurement message from Radwag scale
- * 
+ *
  * @param msg Pointer to mass frame structure
  * @return float Decoded weight value, NaN if conversion failed
  */
@@ -49,69 +49,69 @@ static float _decode_measurement_msg(radwag_sui_frame_t *msg) {
     char mass_str[13];
     memcpy(mass_str, msg->mass, 12);
     mass_str[12] = '\0';
-    
+
     // Convert mass string to float (strtof handles leading spaces)
     char *endptr;
     float weight = strtof(mass_str, &endptr);
-    
+
     if (endptr == mass_str) {
         // Conversion failed
         return nanf(mass_str);
     }
-    
+
     // Note: The mass field in SUI doesn't have a separate sign character
     // Negative values would include '-' in the mass field itself
-    
+
     return weight;
 }
 
 /**
  * @brief Main listener task for Radwag scale communication
  * Continuously reads data from continuous transmission mode
- * 
+ *
  * @param p Task parameter (unused)
  */
 void _radwag_scale_listener_task(void *p) {
     uint8_t string_buf_idx = 0;
     radwag_sui_frame_t frame;
-    
+
     while (true) {
         // Read all available data
         while (uart_is_readable(SCALE_UART)) {
             char ch = uart_getc(SCALE_UART);
             frame.bytes[string_buf_idx++] = ch;
-            
+
             // Radwag SUI frame is 21 bytes
             if (string_buf_idx == sizeof(radwag_sui_frame_t)) {
                 // Verify this is a SUI mass frame
-                if (frame.command[0] == 'S' && 
-                    frame.command[1] == 'U' && 
+                if (frame.command[0] == 'S' &&
+                    frame.command[1] == 'U' &&
                     frame.command[2] == 'I') {
-                    
+
                     // Optional: Check stability flag
                     // ' ' = stable, '?' = unstable
                     // You can decide whether to accept unstable readings
                     // bool is_stable = (frame.stability == ' ');
-                    
+
                     // Data is ready, decode and update
                     scale_config.current_scale_measurement = _decode_measurement_msg(&frame);
-                    
+
                     // Signal that data is ready
                     if (scale_config.scale_measurement_ready) {
                         xSemaphoreGive(scale_config.scale_measurement_ready);
                     }
                 }
-                
+
                 // Reset buffer
                 string_buf_idx = 0;
             }
-            
+
             // Reset on line terminator to resynchronize if out of sync
             if (ch == '\n') {
                 string_buf_idx = 0;
             }
         }
-        
+
         vTaskDelay(pdMS_TO_TICKS(20));
     }
 }
@@ -156,7 +156,7 @@ void radwag_scale_disable_continuous_transmission() {
 /**
  * @brief Set tare value
  * Command: UT <value>\r\n
- * 
+ *
  * @param tare_value Tare value to set (use dot as decimal separator)
  */
 void radwag_scale_set_tare(float tare_value) {
@@ -186,7 +186,7 @@ void radwag_scale_unlock_keyboard() {
 /**
  * @brief Activate beep signal
  * Command: BP <time_ms>\r\n
- * 
+ *
  * @param duration_ms Duration in milliseconds (recommended 50-5000)
  */
 void radwag_scale_beep(uint16_t duration_ms) {

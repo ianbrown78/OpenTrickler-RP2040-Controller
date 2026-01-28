@@ -60,7 +60,7 @@ void _and_scale_listener_task(void *p) {
     scale_standard_data_format_t frame;
 
     while (true) {
-        // Read all data 
+        // Read all data
         while (uart_is_readable(SCALE_UART)) {
             char ch = uart_getc(SCALE_UART);
 

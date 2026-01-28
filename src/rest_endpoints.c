@@ -77,7 +77,7 @@ bool rest_endpoints_init(bool default_wizard) {
     else {
         rest_register_handler("/", http_web_portal);
     }
-    
+
     rest_register_handler("/mobile", http_web_portal);
     rest_register_handler("/wizard", http_wizard);
     rest_register_handler("/404", http_404_error);

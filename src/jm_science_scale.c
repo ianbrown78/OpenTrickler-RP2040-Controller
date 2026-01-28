@@ -45,7 +45,7 @@ scale_handle_t jm_science_scale_handle = {
 
 
 static float _decode_measurement_msg(jm_science_frame_data_format_t * frame) {
-    // decode sign 
+    // decode sign
     int sign = 1;
     if (frame->symbol == '-') {
         sign = -1;
@@ -71,7 +71,7 @@ void _jm_science_scale_listener_task(void *p) {
     uint8_t byte_idx = 0;
 
     while (true) {
-        // Read all data 
+        // Read all data
         while (uart_is_readable(SCALE_UART)) {
             char ch = uart_getc(SCALE_UART);
 

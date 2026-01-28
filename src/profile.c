@@ -93,7 +93,7 @@ bool profile_data_init() {
             profile_t * selected_profile = &profile_data.profiles[idx];
 
             // Provide default name
-            snprintf(selected_profile->name, PROFILE_NAME_MAX_LEN, 
+            snprintf(selected_profile->name, PROFILE_NAME_MAX_LEN,
                      "NewProfile%d", idx);
         }
 
@@ -218,11 +218,11 @@ bool http_rest_profile_config(struct fs_file *file, int num_params, char *params
         }
 
         // Response
-        snprintf(buf, sizeof(buf), 
+        snprintf(buf, sizeof(buf),
                  "%s"
                  "{\"pf\":%d,\"p0\":%ld,\"p1\":%ld,\"p2\":\"%s\",\"p3\":%0.3f,\"p4\":%0.3f,\"p5\":%0.3f,\"p6\":%0.3f,\"p7\":%0.3f,\"p8\":%0.3f,\"p9\":%0.3f,\"p10\":%0.3f,\"p11\":%0.3f,\"p12\":%0.3f}",
                  http_json_header,
-                 profile_idx, 
+                 profile_idx,
                  current_profile->rev,
                  current_profile->compatibility,
                  current_profile->name,
@@ -255,13 +255,13 @@ bool http_rest_profile_summary(struct fs_file *file, int num_params, char *param
     static char buf[256];
 
     // Response
-    // s0 (dict): A dictionary of all profiles in {idx: name} format. 
+    // s0 (dict): A dictionary of all profiles in {idx: name} format.
     // s1 (int): The current loaded profile index
     memset(buf, 0x0, sizeof(buf));
     const char * item_template = "\"%d\":\"%s\",";
 
     // Create header
-    snprintf(buf, sizeof(buf), 
+    snprintf(buf, sizeof(buf),
              "%s{\"s0\":{",
              http_json_header);
 
@@ -269,7 +269,7 @@ bool http_rest_profile_summary(struct fs_file *file, int num_params, char *param
 
     // Write profile information
     for (uint8_t p_idx=0; p_idx < MAX_PROFILE_CNT; p_idx+=1) {
-        snprintf(&buf[char_idx], sizeof(buf) - char_idx, 
+        snprintf(&buf[char_idx], sizeof(buf) - char_idx,
                  item_template,
                  p_idx, &profile_data.profiles[p_idx].name);
         char_idx += strnlen((const char *) &buf[char_idx], sizeof(buf));
@@ -280,7 +280,7 @@ bool http_rest_profile_summary(struct fs_file *file, int num_params, char *param
 
     // Append s1
     snprintf(&buf[char_idx], sizeof(buf) - char_idx,
-             ",\"s1\":%d}", 
+             ",\"s1\":%d}",
              profile_data.current_profile_idx);
 
     size_t response_len = strlen(buf);
